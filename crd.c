@@ -109,7 +109,7 @@ main_recv(crd_options_t *crd_options)
         return 2;
     }
     
-    if (crd_socket_set_timeout(crd_socket, 2) != 0) {
+    if (crd_socket_set_timeout(crd_socket, 1) != 0) {
         crd_socket_close(crd_socket);
         crd_socket_free(&crd_socket);
         crd_message_free(&crd_message);
@@ -129,7 +129,7 @@ main_recv(crd_options_t *crd_options)
         crd_message_free(&crd_message);
         return 5;
     }
-
+    
     /* read a response */
     if (crd_socket_recv(crd_socket, crd_message) != 0) {
         crd_socket_close(crd_socket);

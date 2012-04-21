@@ -65,7 +65,7 @@ crd_message_set_default(crd_message_t *crd_message)
     crd_message->magic_cookie = htonl(0x63825363);
     crd_message->code = 53;
     crd_message->len = 1;
-    crd_message->type = 1;
+    crd_message->type = 0x1;
     crd_message->end = 0xFF;
 }
 

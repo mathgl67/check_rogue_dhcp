@@ -142,10 +142,11 @@ crd_socket_bind(crd_socket_t *crd_socket)
     }
 
     ret = bind(crd_socket->sd, res->ai_addr, res->ai_addrlen);
+    freeaddrinfo(res);
     if (ret == -1) {
         fprintf(stderr, "crd_socket_bind: %s\n", strerror(errno));
         return 2;
-    }
+    }    
     
     return 0;
 }
@@ -164,6 +165,9 @@ crd_socket_send(crd_socket_t *crd_socket, crd_message_t *crd_message)
     
     ret = sendto(crd_socket->sd, crd_message, sizeof(crd_message_t), 0,
                  res->ai_addr, res->ai_addrlen);
+    
+    freeaddrinfo(res);
+    
     if (ret == -1) {
         fprintf(stderr, "crd_socket_send: error when sending data\n"); 
         return 2;
