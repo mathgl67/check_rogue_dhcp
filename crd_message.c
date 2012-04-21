@@ -46,7 +46,7 @@ crd_message_display(crd_message_t *m)
     giaddr.s_addr = m->giaddr;
 
     fprintf(stderr, "crd_message_t message = %p (\n", m);
-    fprintf(stderr, "\top=%d, htype=%d, hlen=%d, hops=%d, xid=%d, secs=%d, flags=%x,\n", m->op, m->htype, m->hlen, m->hops, m->xid, m->secs, m->flags);
+    fprintf(stderr, "\top=%d, htype=%d, hlen=%d, hops=%d, xid=0x%x, secs=%d, flags=%x,\n", m->op, m->htype, m->hlen, m->hops, m->xid, m->secs, m->flags);
     fprintf(stderr, "\tciaddr=%s, yiaddr=%s, siaddr=%s, giaddr=%s,\n", inet_ntoa(ciaddr), inet_ntoa(yiaddr), inet_ntoa(siaddr), inet_ntoa(giaddr));
     fprintf(stderr, "\tchaddr=%02x:%02x:%02x:%02x:%02x:%02x\n", m->chaddr[0], m->chaddr[1], m->chaddr[2], m->chaddr[3], m->chaddr[4], m->chaddr[5]);
     fprintf(stderr, ");\n");
