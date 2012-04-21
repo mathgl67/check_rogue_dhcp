@@ -19,44 +19,44 @@
  *
  */
 
-#include "check_rogue_dhcp.h"
+#include "crd.h"
 
 int
 main(int argc, char **argv)
 {
-    dhcp_socket_t *dhcp_socket;
-    dhcp_message_t *dhcp_message;
+    crd_socket_t *crd_socket;
+    crd_message_t *crd_message;
 
     /* init */
     srand(time(NULL));
 
     /* prepare */
-    dhcp_message = dhcp_message_new();
-    dhcp_message_set_default(dhcp_message);
-    dhcp_message_set_random_xid(dhcp_message);
-    dhcp_message_set_hwaddr(dhcp_message, "00:26:18:80:b8:35");
-    dhcp_message_display(dhcp_message);
+    crd_message = crd_message_new();
+    crd_message_set_default(crd_message);
+    crd_message_set_random_xid(crd_message);
+    crd_message_set_hwaddr(crd_message, "00:26:18:80:b8:35");
+    crd_message_display(crd_message);
 
     /* create socket */
-    dhcp_socket = dhcp_socket_new();
-    dhcp_socket_init(dhcp_socket);
+    crd_socket = crd_socket_new();
+    crd_socket_init(crd_socket);
     /* bind */
-    dhcp_socket_enable_broadcast(dhcp_socket);
-    dhcp_socket_bind_to_device(dhcp_socket, "eth0");
-    dhcp_socket_bind(dhcp_socket);
+    crd_socket_enable_broadcast(crd_socket);
+    crd_socket_bind_to_device(crd_socket, "eth0");
+    crd_socket_bind(crd_socket);
 
     /* send a request */
-    dhcp_socket_send(dhcp_socket, dhcp_message);
+    crd_socket_send(crd_socket, crd_message);
 
     /* read a response */
-    dhcp_socket_recv(dhcp_socket, dhcp_message);
-    dhcp_message_display(dhcp_message);
+    crd_socket_recv(crd_socket, crd_message);
+    crd_message_display(crd_message);
 
     /* free */
-    dhcp_socket_close(dhcp_socket);
-    dhcp_socket_free(&dhcp_socket);
+    crd_socket_close(crd_socket);
+    crd_socket_free(&crd_socket);
 
-    dhcp_message_free(&dhcp_message);
+    crd_message_free(&crd_message);
 
     return EXIT_SUCCESS;
 }

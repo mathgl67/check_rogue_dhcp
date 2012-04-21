@@ -18,22 +18,22 @@
  * along with Check_rogue_dhcp.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-#ifndef __DHCP_SOCKET_H__
-#define __DHCP_SOCKET_H__
+#ifndef __CRD_SOCKET_H__
+#define __CRD_SOCKET_H__
 
-typedef struct dhcp_socket_s {
+typedef struct crd_socket_s {
     uint32_t sd;
     struct addrinfo hints;
-} dhcp_socket_t;
+} crd_socket_t;
 
-dhcp_socket_t *dhcp_socket_new();
-void dhcp_socket_free(dhcp_socket_t **dhcp_socket);
-void dhcp_socket_init(dhcp_socket_t *dhcp_socket);
-void dhcp_socket_close(dhcp_socket_t *dhcp_socket);
-void dhcp_socket_enable_broadcast(dhcp_socket_t *dhcp_socket);
-void dhcp_socket_bind_to_device(dhcp_socket_t *dhcp_socket, const char *device);
-void dhcp_socket_bind(dhcp_socket_t *dhcp_socket);
-void dhcp_socket_send(dhcp_socket_t *dhcp_socket, dhcp_message_t *dhcp_message);
-void dhcp_socket_recv(dhcp_socket_t *dhcp_socket, dhcp_message_t *dhcp_message);
+crd_socket_t *crd_socket_new();
+void crd_socket_free(crd_socket_t **crd_socket);
+void crd_socket_init(crd_socket_t *crd_socket);
+void crd_socket_close(crd_socket_t *crd_socket);
+void crd_socket_enable_broadcast(crd_socket_t *crd_socket);
+void crd_socket_bind_to_device(crd_socket_t *crd_socket, const char *device);
+void crd_socket_bind(crd_socket_t *crd_socket);
+void crd_socket_send(crd_socket_t *crd_socket, crd_message_t *crd_message);
+void crd_socket_recv(crd_socket_t *crd_socket, crd_message_t *crd_message);
 
-#endif /* __DHCP_SOCKET_H__ */
+#endif /* __CRD_SOCKET_H__ */

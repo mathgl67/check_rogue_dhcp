@@ -18,10 +18,10 @@
  * along with Check_rogue_dhcp.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-#ifndef __DHCP_MESSAGE_H__
-#define __DHCP_MESSAGE_H__
+#ifndef __CRD_MESSAGE_H__
+#define __CRD_MESSAGE_H__
 
-typedef struct dhcp_message_s {
+typedef struct crd_message_s {
     uint8_t  op;
     uint8_t  htype;
     uint8_t  hlen;
@@ -43,14 +43,14 @@ typedef struct dhcp_message_s {
     uint8_t len;
     uint8_t type;
     uint8_t end;
-} dhcp_message_t;
+} crd_message_t;
 
-dhcp_message_t *dhcp_message_new();
-void dhcp_message_free(dhcp_message_t **dhcp_message);
-void dhcp_message_display(dhcp_message_t *dhcp_message);
-void dhcp_message_set_default(dhcp_message_t *dhcp_message);
-void dhcp_message_set_random_xid(dhcp_message_t *dhcp_message);
-void dhcp_message_set_hwaddr(dhcp_message_t *dhcp_message, const char *hwaddr); 
-uint32_t dhcp_message_conv_ipv4(const char *ip);
+crd_message_t *crd_message_new();
+void crd_message_free(crd_message_t **crd_message);
+void crd_message_display(crd_message_t *crd_message);
+void crd_message_set_default(crd_message_t *crd_message);
+void crd_message_set_random_xid(crd_message_t *crd_message);
+void crd_message_set_hwaddr(crd_message_t *crd_message, const char *hwaddr); 
+uint32_t crd_message_conv_ipv4(const char *ip);
 
-#endif /* __DHCP_MESSAGE_H__ */
+#endif /* __CRD_MESSAGE_H__ */

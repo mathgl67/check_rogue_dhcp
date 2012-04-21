@@ -18,8 +18,8 @@
  * along with Check_rogue_dhcp.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-#ifndef __DHCPC_H__
-#define __DHCPC_H__
+#ifndef __CRD_H__
+#define __CRD_H__
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -36,7 +36,8 @@
 #include <netdb.h>
 
 #include "config.h"
-#include "dhcp_message.h"
-#include "dhcp_socket.h"
+#include "crd_message.h"
+#include "crd_socket.h"
+#include "crd_options.h"
 
-#endif /* __DHCPC_H__ */
+#endif /* __CRD_H__ */
