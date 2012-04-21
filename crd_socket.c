@@ -64,15 +64,69 @@ crd_socket_close(crd_socket_t *crd_socket)
     close(crd_socket->sd);
 }
 
-void
-crd_socket_enable_broadcast(crd_socket_t *crd_socket)
+int
+crd_socket_set_broadcast(crd_socket_t *crd_socket, int value)
 {
-    int ret, value=1;
+    int ret;
 
-    ret = setsockopt(crd_socket->sd, SOL_SOCKET, SO_BROADCAST, &value, sizeof(int));
+    ret = setsockopt(crd_socket->sd, SOL_SOCKET, SO_BROADCAST, &value, sizeof(value));
     if (ret == -1) {
-        fprintf(stderr, "crd_socket_enable_broadcast: %s\n", strerror(errno));
+        fprintf(stderr, "crd_socket_set_broadcast: %s\n", strerror(errno));
+        return 1;
     }
+    return 0;
+}
+
+int crd_socket_set_checksum_disable(crd_socket_t *crd_socket, int value)
+{
+    int ret;
+
+    ret = setsockopt(crd_socket->sd, SOL_SOCKET, SO_NO_CHECK, &value, sizeof(value));
+    if (ret == -1) {
+        fprintf(stderr, "crd_socket_set_checksum_disable: %s\n", strerror(errno));
+        return 1;
+    }
+    return 0;
+}
+
+int
+crd_socket_set_timeout(crd_socket_t *crd_socket, time_t seconds)
+{
+    int ret;
+    struct timeval tv;
+    
+    tv.tv_sec = seconds;
+    tv.tv_usec = 0;
+    
+    ret = setsockopt(crd_socket->sd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+    if (ret == -1) {
+        fprintf(stderr, "crd_socket_set_timeout (rcv): %s\n", strerror(errno));
+        return 1;
+    }
+    
+    ret = setsockopt(crd_socket->sd, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv));
+    if (ret == -1) {
+        fprintf(stderr, "crd_socket_set_timeout (snd): %s\n", strerror(errno));
+        return 2;
+    }
+    
+    return 0;
+}
+
+int
+crd_socket_set_bind_to_device(crd_socket_t *crd_socket, const char *device)
+{
+#if HAVE_BIND_TO_DEVICE == 1
+    int ret;
+    ret = setsockopt(crd_socket->sd, SOL_SOCKET, SO_BINDTODEVICE, device, sizeof(device));
+    if (ret == -1) {
+        fprintf(stderr, "crd_socket_bind_to_device: %s\n", strerror(errno));
+        return 1;
+    }
+#else
+    fprintf(stderr, "crd_socket_bind_to_device: disabled in config.h.\n");
+#endif
+    return 0;
 }
 
 void
@@ -92,21 +146,6 @@ crd_socket_bind(crd_socket_t *crd_socket)
         fprintf(stderr, "crd_socket_bind: %s\n", strerror(errno));
         return;
     }
-}
-
-void
-crd_socket_bind_to_device(crd_socket_t *crd_socket, const char *device)
-{
-#if HAVE_BIND_TO_DEVICE == 1
-    int ret;
-    ret = setsockopt(crd_socket->sd, SOL_SOCKET, SO_BINDTODEVICE, device, sizeof(device));
-    if (ret == -1) {
-        fprintf(stderr, "crd_socket_bind_to_device: %s\n", strerror(errno));
-        return;
-    }
-#else
-    fprintf(stderr, "crd_socket_bind_to_device: disabled in config.h.\n");
-#endif
 }
 
 void

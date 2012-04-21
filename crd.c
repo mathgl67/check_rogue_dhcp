@@ -54,8 +54,9 @@ main(int argc, char **argv)
     crd_socket = crd_socket_new();
     crd_socket_init(crd_socket);
     /* bind */
-    crd_socket_enable_broadcast(crd_socket);
-    crd_socket_bind_to_device(crd_socket, crd_options->device);
+    crd_socket_set_broadcast(crd_socket, 1);
+    crd_socket_set_timeout(crd_socket, 2);
+    crd_socket_set_bind_to_device(crd_socket, crd_options->device);
     crd_socket_bind(crd_socket);
 
     /* send a request */
