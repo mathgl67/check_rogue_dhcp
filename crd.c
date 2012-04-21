@@ -33,9 +33,14 @@ main(int argc, char **argv)
     
     /* parse options */
     crd_options = crd_options_new();
+    if (crd_options == NULL)
+        return 3;
+    
     if (crd_options_parse(crd_options, argc, argv) > 0) {
+        crd_options_free(&crd_options);
         return 3;
     } 
+    
     crd_options_display(crd_options);
 
     /* prepare */
