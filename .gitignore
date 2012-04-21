@@ -1,3 +1,4 @@
 *.o
 *.sw*
+*~
 check_rogue_dhcp
