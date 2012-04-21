@@ -19,7 +19,7 @@
  *
  */
 
-#include "dhcpc.h"
+#include "check_rogue_dhcp.h"
 
 int
 main(int argc, char **argv)

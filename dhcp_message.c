@@ -19,7 +19,7 @@
  *
  */
 
-#include "dhcpc.h"
+#include "check_rogue_dhcp.h"
 
 dhcp_message_t *
 dhcp_message_new()
