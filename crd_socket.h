@@ -34,8 +34,8 @@ int crd_socket_set_broadcast(crd_socket_t *crd_socket, int value);
 int crd_socket_set_checksum(crd_socket_t *crd_socket, int value);
 int crd_socket_set_timeout(crd_socket_t *crd_socket, time_t seconds);
 int crd_socket_set_bind_to_device(crd_socket_t *crd_socket, const char *device);
-void crd_socket_bind(crd_socket_t *crd_socket);
-void crd_socket_send(crd_socket_t *crd_socket, crd_message_t *crd_message);
-void crd_socket_recv(crd_socket_t *crd_socket, crd_message_t *crd_message);
+int crd_socket_bind(crd_socket_t *crd_socket);
+int crd_socket_send(crd_socket_t *crd_socket, crd_message_t *crd_message);
+int crd_socket_recv(crd_socket_t *crd_socket, crd_message_t *crd_message);
 
 #endif /* __CRD_SOCKET_H__ */

@@ -129,7 +129,7 @@ crd_socket_set_bind_to_device(crd_socket_t *crd_socket, const char *device)
     return 0;
 }
 
-void
+int
 crd_socket_bind(crd_socket_t *crd_socket)
 {
     int ret;
@@ -138,17 +138,19 @@ crd_socket_bind(crd_socket_t *crd_socket)
     ret = getaddrinfo(INADDR_ANY, "68", &(crd_socket->hints), &res);
     if (ret != 0) {
         fprintf(stderr, "crd_socket_bind: %s\n", gai_strerror(ret));
-        return;
+        return 1;
     }
 
     ret = bind(crd_socket->sd, res->ai_addr, res->ai_addrlen);
     if (ret == -1) {
         fprintf(stderr, "crd_socket_bind: %s\n", strerror(errno));
-        return;
+        return 2;
     }
+    
+    return 0;
 }
 
-void
+int
 crd_socket_send(crd_socket_t *crd_socket, crd_message_t *crd_message)
 {
     int ret;
@@ -157,18 +159,20 @@ crd_socket_send(crd_socket_t *crd_socket, crd_message_t *crd_message)
     ret = getaddrinfo("255.255.255.255", "67", &(crd_socket->hints), &res);
     if (ret != 0) {
         fprintf(stderr, "crd_socket_send: %s\n", gai_strerror(ret));
-        return;
+        return 1;
     }
     
     ret = sendto(crd_socket->sd, crd_message, sizeof(crd_message_t), 0,
                  res->ai_addr, res->ai_addrlen);
     if (ret == -1) {
         fprintf(stderr, "crd_socket_send: error when sending data\n"); 
-        return;
+        return 2;
     }
+    
+    return 0;
 }
 
-void
+int
 crd_socket_recv(crd_socket_t *crd_socket, crd_message_t *crd_message)
 {
     int ret;
@@ -180,6 +184,9 @@ crd_socket_recv(crd_socket_t *crd_socket, crd_message_t *crd_message)
 
     if (ret == -1) {
         fprintf(stderr, "crd_socket_receive: an error occured when trying to receive data\n");
+        return 1;
     }
+    
+    return 0;
 }
 
