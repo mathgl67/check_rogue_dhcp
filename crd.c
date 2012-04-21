@@ -47,7 +47,7 @@ main(int argc, char **argv)
     crd_message = crd_message_new();
     crd_message_set_default(crd_message);
     crd_message_set_random_xid(crd_message);
-    crd_message_set_hwaddr(crd_message, crd_options->mac);
+    crd_message_set_options(crd_message, crd_options);
     crd_message_display(crd_message);
 
     /* create socket */

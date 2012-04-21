@@ -74,7 +74,7 @@ crd_options_parse(crd_options_t *crd_options, int argc, char **argv)
 {
     char c;
     
-    while((c = getopt(argc, argv, "d:m:")) != -1)
+    while((c = getopt(argc, argv, "d:m:c:")) != -1)
     {
         switch(c)
         {
@@ -84,18 +84,21 @@ crd_options_parse(crd_options_t *crd_options, int argc, char **argv)
             case 'm':
                 crd_options->mac = optarg;
                 break;
-           case '?':
-                if (optopt == 'c')
-                    fprintf(stderr, "Option -%c requires an argument.\n",
-                            optopt);
-                else if (isprint (optopt))
-                    fprintf(stderr, "Unknown option `-%c'.\n", optopt);
-                else
-                    fprintf(stderr, "Unknown option character `\\x%x'.\n",
-                            optopt);
-                return 1;
-           default:
-             return 2;
+            case 'c':
+                crd_options->client_ip = optarg;
+                break;
+            case '?':
+                    if (optopt == 'c')
+                        fprintf(stderr, "Option -%c requires an argument.\n",
+                                optopt);
+                    else if (isprint (optopt))
+                        fprintf(stderr, "Unknown option `-%c'.\n", optopt);
+                    else
+                        fprintf(stderr, "Unknown option character `\\x%x'.\n",
+                                optopt);
+                        return 1;
+             default:
+                return 2;
         }
     }
     

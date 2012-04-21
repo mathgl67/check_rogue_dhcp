@@ -95,6 +95,16 @@ crd_message_set_hwaddr(crd_message_t *crd_message, const char *hwaddr)
     }
 }
 
+void
+crd_message_set_options(crd_message_t *crd_message, crd_options_t *crd_options)
+{
+    crd_message_set_hwaddr(crd_message, crd_options->mac);
+    
+    if (crd_options->client_ip != NULL) {
+        crd_message->ciaddr = crd_message_conv_ipv4(crd_options->client_ip);
+    }
+}
+
 uint32_t
 crd_message_conv_ipv4(const char *ip)
 {

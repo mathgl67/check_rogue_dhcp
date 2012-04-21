@@ -24,6 +24,7 @@
 typedef struct crd_options_s {
   char *device;
   char *mac;
+  char *client_ip;
 } crd_options_t;
 
 crd_options_t *crd_options_new();
