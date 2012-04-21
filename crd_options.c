@@ -26,7 +26,7 @@ crd_options_new()
 {
     crd_options_t *crd_options;
     
-    crd_options = (crd_options_t *) malloc(sizeof(crd_options));
+    crd_options = (crd_options_t *) malloc(sizeof(crd_options_t));
     if (crd_options == NULL) {
         fprintf(stderr, "crd_options_new: cannot allocate memory.");
         return NULL;
