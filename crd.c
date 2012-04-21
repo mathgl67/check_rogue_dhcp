@@ -24,17 +24,25 @@
 int
 main(int argc, char **argv)
 {
+    crd_options_t *crd_options;
     crd_socket_t *crd_socket;
     crd_message_t *crd_message;
 
     /* init */
     srand(time(NULL));
+    
+    /* parse options */
+    crd_options = crd_options_new();
+    if (crd_options_parse(crd_options, argc, argv) > 0) {
+        return 3;
+    } 
+    crd_options_display(crd_options);
 
     /* prepare */
     crd_message = crd_message_new();
     crd_message_set_default(crd_message);
     crd_message_set_random_xid(crd_message);
-    crd_message_set_hwaddr(crd_message, "00:26:18:80:b8:35");
+    crd_message_set_hwaddr(crd_message, crd_options->mac);
     crd_message_display(crd_message);
 
     /* create socket */
@@ -42,7 +50,7 @@ main(int argc, char **argv)
     crd_socket_init(crd_socket);
     /* bind */
     crd_socket_enable_broadcast(crd_socket);
-    crd_socket_bind_to_device(crd_socket, "eth0");
+    crd_socket_bind_to_device(crd_socket, crd_options->device);
     crd_socket_bind(crd_socket);
 
     /* send a request */
@@ -52,11 +60,13 @@ main(int argc, char **argv)
     crd_socket_recv(crd_socket, crd_message);
     crd_message_display(crd_message);
 
-    /* free */
+    /* close socket */
     crd_socket_close(crd_socket);
+    
+    /* free */
     crd_socket_free(&crd_socket);
-
     crd_message_free(&crd_message);
+    crd_options_free(&crd_options);
 
     return EXIT_SUCCESS;
 }

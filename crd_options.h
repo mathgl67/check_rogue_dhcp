@@ -18,27 +18,18 @@
  * along with Check_rogue_dhcp.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-#ifndef __CRD_H__
-#define __CRD_H__
+#ifndef __CRD_OPTIONS_H__
+#define __CRD_OPTIONS_H__
 
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <time.h>
-#include <ctype.h>
+typedef struct crd_options_s {
+  char *device;
+  char *mac;
+} crd_options_t;
 
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
+crd_options_t *crd_options_new();
+void crd_options_free(crd_options_t **crd_options);
+void crd_options_display(crd_options_t *crd_options);
+int crd_options_parse(crd_options_t *crd_options, int argc, char **argv);
+int crd_options_is_valid(crd_options_t *crd_options);
 
-#include "config.h"
-#include "crd_message.h"
-#include "crd_socket.h"
-#include "crd_options.h"
-
-#endif /* __CRD_H__ */
+#endif /* __CRD_OPTIONS_H__ */
