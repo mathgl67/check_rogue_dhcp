@@ -18,8 +18,5 @@ $(PROG_NAME): $(OBJECTS)
 
 %.o : %.c %.h config.h
 	$(CC) $(CFLAGS) -c $< -o $@
-	
-
-
 
 
