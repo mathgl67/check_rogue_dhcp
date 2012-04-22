@@ -46,7 +46,9 @@ crd_message_display(crd_message_t *m)
     giaddr.s_addr = m->giaddr;
 
     fprintf(stderr, "crd_message_t message = %p (\n", m);
-    fprintf(stderr, "\top=%d, htype=%d, hlen=%d, hops=%d, xid=0x%x, secs=%d, flags=%x,\n", m->op, m->htype, m->hlen, m->hops, m->xid, m->secs, m->flags);
+    fprintf(stderr, "\top=%s, htype=%d, hlen=%d, hops=%d, xid=0x%x, secs=%d, flags=%x,\n",
+            crd_message_get_op_string(m), m->htype, m->hlen, m->hops, m->xid, m->secs,
+            m->flags);
     fprintf(stderr, "\tciaddr=%s, yiaddr=%s, siaddr=%s, giaddr=%s,\n", inet_ntoa(ciaddr), inet_ntoa(yiaddr), inet_ntoa(siaddr), inet_ntoa(giaddr));
     fprintf(stderr, "\tchaddr=%02x:%02x:%02x:%02x:%02x:%02x\n", m->chaddr[0], m->chaddr[1], m->chaddr[2], m->chaddr[3], m->chaddr[4], m->chaddr[5]);
     fprintf(stderr, ");\n");
@@ -55,7 +57,7 @@ crd_message_display(crd_message_t *m)
 void
 crd_message_set_default(crd_message_t *crd_message)
 {
-    crd_message->op = 0x1;
+    crd_message->op = CRD_MESSAGE_OP_REQUEST;
     crd_message->htype = 0x1;
     crd_message->hlen = 0x6;
     crd_message->hops = 0x0;
@@ -102,6 +104,19 @@ crd_message_set_options(crd_message_t *crd_message, crd_options_t *crd_options)
     
     if (crd_options->client_ip != NULL) {
         crd_message->ciaddr = crd_message_conv_ipv4(crd_options->client_ip);
+    }
+}
+
+const char*
+crd_message_get_op_string(crd_message_t *crd_message)
+{
+    switch(crd_message->op) {
+        case CRD_MESSAGE_OP_REQUEST:
+            return "request";
+        case CRD_MESSAGE_OP_REPLY:
+            return "reply";
+        default:
+            return "unknown";
     }
 }
 
