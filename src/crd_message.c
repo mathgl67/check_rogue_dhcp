@@ -104,12 +104,12 @@ crd_message_set_hwaddr(crd_message_t *crd_message, const char *hwaddr)
 }
 
 void
-crd_message_set_options(crd_message_t *crd_message, crd_options_t *crd_options)
+crd_message_set_options(crd_message_t *crd_message, crd_args_t *crd_args)
 {
-    crd_message_set_hwaddr(crd_message, crd_options->mac);
+    crd_message_set_hwaddr(crd_message, crd_args->mac);
     
-    if (crd_options->client_ip != NULL) {
-        crd_message->ciaddr = crd_message_conv_ipv4(crd_options->client_ip);
+    if (crd_args->client_ip != NULL) {
+        crd_message->ciaddr = crd_message_conv_ipv4(crd_args->client_ip);
     }
 }
 

@@ -21,47 +21,47 @@
 
 #include "crd.h"
 
-crd_options_t *
-crd_options_new()
+crd_args_t *
+crd_args_new()
 {
-    crd_options_t *crd_options;
+    crd_args_t *crd_args;
     
-    crd_options = (crd_options_t *) malloc(sizeof(crd_options_t));
-    if (crd_options == NULL) {
-        fprintf(stderr, "crd_options_new: cannot allocate memory.");
+    crd_args = (crd_args_t *) malloc(sizeof(crd_args_t));
+    if (crd_args == NULL) {
+        fprintf(stderr, "crd_args_new: cannot allocate memory.");
         return NULL;
     }
     
-    memset(crd_options, 0, sizeof(crd_options_t));
+    memset(crd_args, 0, sizeof(crd_args_t));
     
-    return crd_options;
+    return crd_args;
 }
 
 void
-crd_options_free(crd_options_t **crd_options)
+crd_args_free(crd_args_t **crd_args)
 {
-    if (*crd_options != NULL)
-        free(*crd_options);
-    *crd_options = NULL;       
+    if (*crd_args != NULL)
+        free(*crd_args);
+    *crd_args = NULL;       
 }
 
 void
-crd_options_display(crd_options_t *crd_options)
+crd_args_display(crd_args_t *crd_args)
 {
-    fprintf(stderr, "crd_options_t options = %p (\n", crd_options);
-    fprintf(stderr, "\tdevice=%s, mac=%s\n", crd_options->device, crd_options->mac);
+    fprintf(stderr, "crd_args_t options = %p (\n", crd_args);
+    fprintf(stderr, "\tdevice=%s, mac=%s\n", crd_args->device, crd_args->mac);
     fprintf(stderr, ");\n");
 }
 
 int
-crd_options_is_valid(crd_options_t *crd_options)
+crd_args_is_valid(crd_args_t *crd_args)
 {
-    if (crd_options->device == NULL) {
-        fprintf(stderr, "crd_options_is_valid: device (-d') is mandatory\n");
+    if (crd_args->device == NULL) {
+        fprintf(stderr, "crd_args_is_valid: device (-d') is mandatory\n");
         return 1;
     }
-    else if (crd_options->mac == NULL) {
-        fprintf(stderr, "crd_options_is_valid: mac (-m) is mandatory\n");
+    else if (crd_args->mac == NULL) {
+        fprintf(stderr, "crd_args_is_valid: mac (-m) is mandatory\n");
         return 2;
     }
     else {
@@ -70,7 +70,7 @@ crd_options_is_valid(crd_options_t *crd_options)
 }
 
 int
-crd_options_parse(crd_options_t *crd_options, int argc, char **argv)
+crd_args_parse(crd_args_t *crd_args, int argc, char **argv)
 {
     char c;
     
@@ -79,13 +79,13 @@ crd_options_parse(crd_options_t *crd_options, int argc, char **argv)
         switch(c)
         {
             case 'd':
-                crd_options->device = optarg;
+                crd_args->device = optarg;
                 break;
             case 'm':
-                crd_options->mac = optarg;
+                crd_args->mac = optarg;
                 break;
             case 'c':
-                crd_options->client_ip = optarg;
+                crd_args->client_ip = optarg;
                 break;
             case '?':
                     if (optopt == 'c')
@@ -102,7 +102,7 @@ crd_options_parse(crd_options_t *crd_options, int argc, char **argv)
         }
     }
     
-    if (crd_options_is_valid(crd_options) > 0) {
+    if (crd_args_is_valid(crd_args) > 0) {
         return 3;
     }
     

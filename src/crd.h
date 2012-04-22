@@ -38,7 +38,7 @@
 #include <netdb.h>
 
 #include "config.h"
-#include "crd_options.h"
+#include "crd_args.h"
 #include "crd_message.h"
 #include "crd_socket.h"
 

@@ -22,24 +22,24 @@
 #include "crd.h"
 
 int
-main_parse(crd_options_t **crd_options, int argc, char **argv)
+main_parse(crd_args_t **crd_args, int argc, char **argv)
 {
-    *crd_options = crd_options_new();
-    if (*crd_options == NULL)
+    *crd_args = crd_args_new();
+    if (*crd_args == NULL)
         return 1;
     
-    if (crd_options_parse(*crd_options, argc, argv) != 0) {
-        crd_options_free(crd_options);
+    if (crd_args_parse(*crd_args, argc, argv) != 0) {
+        crd_args_free(crd_args);
         return 2;
     } 
     
-    crd_options_display(*crd_options);
+    crd_args_display(*crd_args);
     
     return 0;
 }
 
 int
-main_send(crd_options_t *crd_options)
+main_send(crd_args_t *crd_args)
 {
     crd_socket_t crd_socket;
     crd_message_t crd_message;
@@ -48,7 +48,7 @@ main_send(crd_options_t *crd_options)
     crd_message_reset(&crd_message);
     crd_message_set_default(&crd_message);
     crd_message_set_random_xid(&crd_message);
-    crd_message_set_options(&crd_message, crd_options);
+    crd_message_set_options(&crd_message, crd_args);
     crd_message_display(&crd_message);
     
     /* prepare socket */  
@@ -71,7 +71,7 @@ main_send(crd_options_t *crd_options)
 }
 
 int
-main_recv(crd_options_t *crd_options)
+main_recv(crd_args_t *crd_args)
 {
     crd_socket_t crd_socket;
     crd_message_t crd_message;
@@ -94,7 +94,7 @@ main_recv(crd_options_t *crd_options)
         return 2;
     }
     
-    if (crd_socket_set_bind_to_device(&crd_socket, crd_options->device) != 0) {
+    if (crd_socket_set_bind_to_device(&crd_socket, crd_args->device) != 0) {
         crd_socket_close(&crd_socket);
         return 3;
     }
@@ -119,27 +119,27 @@ main_recv(crd_options_t *crd_options)
 int
 main(int argc, char **argv)
 {
-    crd_options_t *crd_options;
+    crd_args_t *crd_args;
 
     /* init */
     srand(time(NULL));
     
     /* parse options */
-    if (main_parse(&crd_options, argc, argv) != 0) {
+    if (main_parse(&crd_args, argc, argv) != 0) {
         return 3;
     }
     
-    if (main_send(crd_options) != 0) {
-        crd_options_free(&crd_options);
+    if (main_send(crd_args) != 0) {
+        crd_args_free(&crd_args);
         return 3;
     }
     
-    if (main_recv(crd_options) != 0) {
-        crd_options_free(&crd_options);
+    if (main_recv(crd_args) != 0) {
+        crd_args_free(&crd_args);
         return 3;
     }
     
-    crd_options_free(&crd_options);
+    crd_args_free(&crd_args);
     
     return 0;
 }
