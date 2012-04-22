@@ -1,6 +1,6 @@
 
 PROG_NAME=check_rogue_dhcp
-OBJECTS=crd_options.o crd_message.o crd_socket.o crd.o
+OBJECTS=build/crd_options.o build/crd_message.o build/crd_socket.o build/crd.o
 CC=gcc
 CFLAGS=-g -Wall
 LDFLAGS=
@@ -8,7 +8,7 @@ LDFLAGS=
 all : $(PROG_NAME)
 
 clean :
-	@rm -f $(OBJECTS)
+	@rm -rf build 
 
 distclean : clean
 	@rm $(PROG_NAME)
@@ -16,7 +16,10 @@ distclean : clean
 $(PROG_NAME): $(OBJECTS)
 	$(CC) $(LDFLAGS) -o $(PROG_NAME) $(OBJECTS)
 
-%.o : %.c %.h config.h
+build_dir:
+	mkdir -p build
+
+build/%.o : src/%.c src/%.h src/config.h build_dir
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
