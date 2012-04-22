@@ -27,6 +27,7 @@ typedef struct crd_socket_s {
 } crd_socket_t;
 
 crd_socket_t *crd_socket_new();
+void crd_socket_reset(crd_socket_t *crd_socket);
 void crd_socket_free(crd_socket_t **crd_socket);
 void crd_socket_init(crd_socket_t *crd_socket);
 void crd_socket_close(crd_socket_t *crd_socket);

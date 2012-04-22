@@ -28,10 +28,16 @@ crd_message_new()
     if (crd_message == NULL) {
         fprintf(stderr, "crd_message_new: no free memory?\n");
     } else {
-        memset(crd_message, 0, sizeof(crd_message_t));
+        crd_message_reset(crd_message);
     }
 
     return crd_message;
+}
+
+void
+crd_message_reset(crd_message_t *crd_message)
+{
+    memset(crd_message, 0, sizeof(crd_message_t));
 }
 
 

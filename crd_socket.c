@@ -33,14 +33,15 @@ crd_socket_new()
         return NULL;
     } 
 
-    memset(crd_socket, 0, sizeof(crd_socket_t));
-
-    /* set default */
-    crd_socket->hints.ai_family = AF_UNSPEC;
-    crd_socket->hints.ai_socktype = SOCK_DGRAM;
-    crd_socket->hints.ai_flags = AI_PASSIVE;
-
+    crd_socket_reset(crd_socket);
+    
     return crd_socket; 
+}
+
+void
+crd_socket_reset(crd_socket_t *crd_socket)
+{
+    memset(crd_socket, 0, sizeof(crd_socket_t));
 }
 
 void
@@ -55,6 +56,10 @@ crd_socket_free(crd_socket_t **crd_socket)
 void
 crd_socket_init(crd_socket_t *crd_socket)
 {
+    /* set default */
+    crd_socket->hints.ai_family = AF_UNSPEC;
+    crd_socket->hints.ai_socktype = SOCK_DGRAM;
+    crd_socket->hints.ai_flags = AI_PASSIVE;
     crd_socket->sd = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP); 
 }
 

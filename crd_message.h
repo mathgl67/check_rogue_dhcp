@@ -51,6 +51,7 @@ typedef struct crd_message_s {
 } crd_message_t;
 
 crd_message_t *crd_message_new();
+void crd_message_reset(crd_message_t *crd_message);
 void crd_message_free(crd_message_t **crd_message);
 void crd_message_display(crd_message_t *crd_message);
 void crd_message_set_default(crd_message_t *crd_message);
