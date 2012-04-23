@@ -48,10 +48,28 @@ main_send(crd_args_t *crd_args)
     crd_message_reset(&crd_message);
     crd_message_set_default(&crd_message);
     crd_message_set_random_xid(&crd_message);
-    crd_message_set_options(&crd_message, crd_args);
+    crd_message_set_args(&crd_message, crd_args); 
+   
     crd_message_display(&crd_message);
+ 
+    /* options */
+    crd_options_t crd_options;
     
-    /* prepare socket */  
+    crd_options_init(&crd_options, crd_message.options);
+    crd_options_append_uint32(&crd_options, CRD_OPTIONS_MAGIC);
+    
+    crd_options_append_head(&crd_options, CRD_OPTIONS_CODE_MESSAGE_TYPE, 1);
+    crd_options_append_uint8(&crd_options, CRD_OPTIONS_MESSAGE_TYPE_DISCOVER);
+    
+    crd_options_append_head(&crd_options, CRD_OPTIONS_CODE_PARAMETER_REQUEST_LIST, 2);
+    crd_options_append_uint8(&crd_options, 6);
+    crd_options_append_uint8(&crd_options, 3);
+    
+    crd_options_append_uint8(&crd_options, CRD_OPTIONS_END);
+    
+    crd_options_display(&crd_options);
+    
+    /* prepare socket */
     crd_socket_reset(&crd_socket);
     crd_socket_init(&crd_socket);
     

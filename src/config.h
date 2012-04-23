@@ -21,6 +21,9 @@
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
+#define CRD_MTU_MAX 1500
+#define CRD_UDP_OVERHEAD (20 + 8)
+
 #define OS_LINUX
 /* #define OS_MACOSX */
 

@@ -70,11 +70,6 @@ crd_message_set_default(crd_message_t *crd_message)
     crd_message->xid = htonl(0xdeadbeaf);
     crd_message->secs = htons(0);
     crd_message->flags = htons(0x8000); /* BROADCAST */
-    crd_message->magic_cookie = htonl(0x63825363);
-    crd_message->code = 53;
-    crd_message->len = 1;
-    crd_message->type = 0x1;
-    crd_message->end = 0xFF;
 }
 
 void
@@ -104,7 +99,7 @@ crd_message_set_hwaddr(crd_message_t *crd_message, const char *hwaddr)
 }
 
 void
-crd_message_set_options(crd_message_t *crd_message, crd_args_t *crd_args)
+crd_message_set_args(crd_message_t *crd_message, crd_args_t *crd_args)
 {
     crd_message_set_hwaddr(crd_message, crd_args->mac);
     

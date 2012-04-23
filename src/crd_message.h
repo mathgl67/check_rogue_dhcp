@@ -21,6 +21,9 @@
 #ifndef __CRD_MESSAGE_H__
 #define __CRD_MESSAGE_H__
 
+#define CRD_MESSAGE_MIN_LEN 236
+#define CRD_MESSAGE_MAX_OPTION_LEN (CRD_MTU_MAX - CRD_UDP_OVERHEAD - CRD_MESSAGE_MIN_LEN)
+
 enum crd_message_op_e {
     CRD_MESSAGE_OP_REQUEST=0x1,
     CRD_MESSAGE_OP_REPLY=0x2
@@ -43,11 +46,7 @@ typedef struct crd_message_s {
     unsigned char sname[64];
     unsigned char file[128];
     /* options */
-    uint32_t magic_cookie;
-    uint8_t code;
-    uint8_t len;
-    uint8_t type;
-    uint8_t end;
+    uint8_t options[CRD_MESSAGE_MAX_OPTION_LEN];
 } crd_message_t;
 
 crd_message_t *crd_message_new();
@@ -57,7 +56,7 @@ void crd_message_display(crd_message_t *crd_message);
 void crd_message_set_default(crd_message_t *crd_message);
 void crd_message_set_random_xid(crd_message_t *crd_message);
 void crd_message_set_hwaddr(crd_message_t *crd_message, const char *hwaddr);
-void crd_message_set_options(crd_message_t *crd_message, crd_args_t *crd_args);
+void crd_message_set_args(crd_message_t *crd_message, crd_args_t *crd_args);
 const char* crd_message_get_op_string(crd_message_t *crd_message);
 uint32_t crd_message_conv_ipv4(const char *ip);
 

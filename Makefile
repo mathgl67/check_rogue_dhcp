@@ -1,6 +1,6 @@
 
 PROG_NAME=check_rogue_dhcp
-OBJECTS=build/crd_args.o build/crd_message.o build/crd_socket.o build/crd.o
+OBJECTS=build/crd_args.o build/crd_message.o build/crd_options.o build/crd_socket.o build/crd.o
 CC=gcc
 CFLAGS=-g -Wall
 LDFLAGS=
