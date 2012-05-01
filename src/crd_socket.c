@@ -185,16 +185,18 @@ int
 crd_socket_recv(crd_socket_t *crd_socket, crd_message_t *crd_message)
 {
     int ret;
-    struct sockaddr from;
+    struct sockaddr_in from;
     unsigned int fromlen;
     
-    fromlen = sizeof(struct sockaddr);
-    ret = recvfrom(crd_socket->sd, crd_message, sizeof(crd_message_t), 0, &from, &fromlen);
+    fromlen = sizeof(struct sockaddr_in);
+    ret = recvfrom(crd_socket->sd, crd_message, sizeof(crd_message_t), 0, (struct sockaddr *) &from, &fromlen);
 
     if (ret == -1) {
         fprintf(stderr, "crd_socket_receive: an error occured when trying to receive data\n");
         return 1;
     }
+    
+    fprintf(stderr, "from: [sin_family: %d, sin_port: %d, address: %s]\n", from.sin_family, from.sin_port, inet_ntoa(from.sin_addr));
     
     return 0;
 }
