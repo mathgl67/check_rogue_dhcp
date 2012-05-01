@@ -69,23 +69,41 @@ crd_args_is_valid(crd_args_t *crd_args)
     }
 }
 
+void
+crd_args_help(const char *progname)
+{
+    fprintf(stderr, "syntax: %s [options]\n\n", progname);
+    fprintf(stderr, "Options:\n");
+    fprintf(stderr, "\t-d: client interface (eg. eth0)\n");
+    fprintf(stderr, "\t-m: client mac address (eg. 04:08:be:ef:de:ad)\n");
+    fprintf(stderr, "\t-c: client ip (eg. 1.2.3.4)\n");
+    fprintf(stderr, "\t-a: authorized dhcp server IP (eg. 1.2.3.4)\n");
+    fprintf(stderr, "\t-h: display this help\n");
+    
+}
+
 int
 crd_args_parse(crd_args_t *crd_args, int argc, char **argv)
 {
     char c;
     
-    while((c = getopt(argc, argv, "d:m:c:")) != -1)
+    while((c = getopt(argc, argv, "d:m:c:a:h")) != -1)
     {
         switch(c)
         {
+            case 'a':
+                crd_args->autorized_ip = optarg;
+            case 'c':
+                crd_args->client_ip = optarg;
+                break;
             case 'd':
                 crd_args->device = optarg;
                 break;
+            case 'h':
+                crd_args_help(argv[0]);
+                return 3;
             case 'm':
                 crd_args->mac = optarg;
-                break;
-            case 'c':
-                crd_args->client_ip = optarg;
                 break;
             case '?':
                     if (optopt == 'c')

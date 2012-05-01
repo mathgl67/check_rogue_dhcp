@@ -22,9 +22,10 @@
 #define __CRD_ARGS_H__
 
 typedef struct crd_args_s {
-  char *device;
-  char *mac;
-  char *client_ip;
+  const char *device;
+  const char *mac;
+  const char *client_ip;
+  const char *autorized_ip;
 } crd_args_t;
 
 crd_args_t *crd_args_new();
@@ -32,5 +33,6 @@ void crd_args_free(crd_args_t **crd_args);
 void crd_args_display(crd_args_t *crd_args);
 int crd_args_parse(crd_args_t *crd_args, int argc, char **argv);
 int crd_args_is_valid(crd_args_t *crd_args);
+void crd_args_help(const char *progname);
 
 #endif /* __CRD_ARGS_H__ */
