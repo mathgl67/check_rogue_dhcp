@@ -57,10 +57,10 @@ void
 crd_socket_init(crd_socket_t *crd_socket)
 {
     /* set default */
-    crd_socket->hints.ai_family = AF_UNSPEC;
+    crd_socket->hints.ai_family = AF_INET;
     crd_socket->hints.ai_socktype = SOCK_DGRAM;
     crd_socket->hints.ai_flags = AI_PASSIVE;
-    crd_socket->sd = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP); 
+    crd_socket->sd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP); 
 }
 
 void
@@ -68,6 +68,38 @@ crd_socket_close(crd_socket_t *crd_socket)
 {
     close(crd_socket->sd);
 }
+
+const char *
+crd_socket_get_hwaddr(crd_socket_t *crd_socket, struct sockaddr *address)
+{
+    int ret;
+    struct arpreq request;
+    
+    memset(&request, 0, sizeof(struct arpreq));
+    memcpy(&(request.arp_pa), address, sizeof(struct sockaddr));
+    request.arp_pa.sa_family = AF_INET;
+    request.arp_flags = ATF_PUBL;
+    
+     
+    ret = ioctl(crd_socket->sd, SIOCGARP, &request);
+    
+    if (ret != 0) {
+        perror("crd_socket_get_hwaddr()");
+        return NULL;
+    }
+    
+    fprintf(stderr, "mac: %x%x:%x%x:%x%x:%x%x:%x%x:%x%x\n",
+            request.arp_ha.sa_data[0], request.arp_ha.sa_data[1],
+            request.arp_ha.sa_data[2], request.arp_ha.sa_data[3],
+            request.arp_ha.sa_data[4], request.arp_ha.sa_data[5],
+            request.arp_ha.sa_data[6], request.arp_ha.sa_data[7],
+            request.arp_ha.sa_data[8], request.arp_ha.sa_data[9],
+            request.arp_ha.sa_data[10], request.arp_ha.sa_data[11]
+    );
+        
+    return NULL;
+}
+
 
 int
 crd_socket_set_broadcast(crd_socket_t *crd_socket, int value)
@@ -197,6 +229,8 @@ crd_socket_recv(crd_socket_t *crd_socket, crd_message_t *crd_message)
     }
     
     fprintf(stderr, "from: [sin_family: %d, sin_port: %d, address: %s]\n", from.sin_family, from.sin_port, inet_ntoa(from.sin_addr));
+    
+    crd_socket_get_hwaddr(crd_socket, (struct sockaddr *) &(from.sin_addr));
     
     return 0;
 }

@@ -31,6 +31,7 @@ void crd_socket_reset(crd_socket_t *crd_socket);
 void crd_socket_free(crd_socket_t **crd_socket);
 void crd_socket_init(crd_socket_t *crd_socket);
 void crd_socket_close(crd_socket_t *crd_socket);
+const char *crd_socket_get_hwaddr(crd_socket_t *crd_socket, struct sockaddr *address);
 int crd_socket_set_broadcast(crd_socket_t *crd_socket, int value);
 int crd_socket_set_checksum(crd_socket_t *crd_socket, int value);
 int crd_socket_set_timeout(crd_socket_t *crd_socket, time_t seconds);

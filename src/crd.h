@@ -36,6 +36,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <sys/ioctl.h>
+#include <net/if_arp.h>
 
 #include "config.h"
 #include "crd_args.h"
